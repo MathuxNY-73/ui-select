@@ -534,9 +534,13 @@ uis.controller('uiSelectCtrl',
           if (containerWidth === 0) {
             return false;
           }
-          var inputWidth = containerWidth - input.offsetLeft;
-          if (inputWidth < 50) inputWidth = containerWidth;
-          ctrl.searchInput.css('width', inputWidth+'px');
+          /*https://github.com/angular-ui/ui-select/issues/621*/
+          /* Fixes a bug where input box is forced to a new line for multiselect. */
+          ctrl.searchInput.css('width', '50px');
+          setTimeout(function(){
+            var inputWidth = Math.max(50, (containerWidth - input.offsetLeft)/2);
+            ctrl.searchInput.css('width', inputWidth+'px');
+          }, 0);
           return true;
         };
 
